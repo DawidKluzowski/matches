@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useSimulationsContext } from '../hooks';
 import { observer } from 'mobx-react-lite';
 import { Match } from '../types';
@@ -13,29 +13,37 @@ type Props = {
 };
 
 const SingleMatchSimulation = ({ match, simulationId }: Props) => {
-  const { finishSimulation, addGoal, resetGoals } = useSimulationsContext();
+  const { finishSimulation, addGoal, state } = useSimulationsContext();
+  const intervalId = useRef(0);
+  const timeoutId = useRef(0);
 
-  const teams = [{ name: match.teamA }, { name: match.teamB }];
+  const teams = [{ name: match.teamA }, { name: match.teamB }]; // TODO: Moze powinien byc type Team i zaciagac ze store jakos
 
   useEffect(() => {
     if (!simulationId) return;
-    resetGoals(match.id);
 
-    const intervalId = setInterval(() => {
+    intervalId.current = setInterval(() => {
       const goal = getRandomGoal(teams);
       addGoal(match.id, goal);
     }, GOALS_INTERVAL);
 
-    const timeoutId = setTimeout(() => {
-      clearInterval(intervalId);
+    timeoutId.current = setTimeout(() => {
+      clearInterval(intervalId.current);
       finishSimulation();
     }, SIMULATION_TIME);
 
     return () => {
-      clearTimeout(timeoutId);
-      clearInterval(intervalId);
+      clearTimeout(timeoutId.current);
+      clearInterval(intervalId.current);
     };
   }, [simulationId]);
+
+  useEffect(() => {
+    if (state === 'done') {
+      clearTimeout(timeoutId.current);
+      clearInterval(intervalId.current);
+    }
+  }, [state]);
 
   return (
     <article className="flex w-60 flex-col gap-2">

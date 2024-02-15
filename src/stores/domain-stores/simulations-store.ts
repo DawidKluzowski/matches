@@ -37,7 +37,6 @@ class SimulationsStore {
       state: observable,
       matches: observable,
       addGoal: action.bound,
-      resetGoals: action.bound,
       startSimulation: action.bound,
       finishSimulation: action.bound,
       restartSimulation: action.bound,
@@ -51,13 +50,6 @@ class SimulationsStore {
     }
   }
 
-  resetGoals(matchId: string) {
-    const match = this.matches.find((match) => match.id === matchId);
-    if (match) {
-      match.goals = [];
-    }
-  }
-
   startSimulation() {
     this.simulationId = uuidv4();
     this.state = 'running';
@@ -68,6 +60,7 @@ class SimulationsStore {
   }
 
   restartSimulation() {
+    this.state = 'running';
     this.simulationId = uuidv4();
     this.matches = this.matches.map((match) => ({ ...match, goals: [] }));
   }
