@@ -1,34 +1,29 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
 import './App.css';
+import Match from './components/match.tsx';
+import { SimulationsContext } from './contexts';
+import SimulationsStore from './stores/domain-stores/simulations-store.ts';
+import SimulationButton from './components/simulation-button.tsx';
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <SimulationsContext.Provider value={new SimulationsStore()}>
+      <main className="container flex h-full flex-col items-center justify-center">
+        <div className="flex flex-col gap-2 border border-black px-16 py-3">
+          <header>Katar 2023</header>
+          <section>
+            <SimulationButton />
+          </section>
+          <section className="flex flex-col gap-2">
+            <Match matchIndex={0} />
+            <Match matchIndex={1} />
+            <Match matchIndex={2} />
+          </section>
+          <section className="flex justify-end text-xs font-semibold text-gray-500">
+            Total goals: 6
+          </section>
+        </div>
+      </main>
+    </SimulationsContext.Provider>
   );
 }
 
