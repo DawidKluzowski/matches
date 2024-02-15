@@ -1,30 +1,34 @@
-# React + TypeScript + Vite
+# Hello!
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Welcome to my repository.
+This app is a simple simulation of football matches. It has been created using React.js, TypeScript, MobX and TailwindCSS. Hopefully you will find this good enough.
 
-Currently, two official plugins are available:
+## How to run this project
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+It has been deployed to Vercel, you can access it here: [https://matches-dawidkluzowski.vercel.app/](https://matches-dawidkluzowski.vercel.app/)
 
-## Expanding the ESLint configuration
+Or if you wish to run it locally
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-};
+```bash
+pnpm install
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+And then
+
+```bash
+pnpm dev
+```
+
+Open [http://localhost:5173](http://localhost:5173) with your browser to see the result.
+
+## Tests
+
+I used Vitest as a test runner. If you want to execute all unit tests in the projects, type in the following command:
+
+```bash
+pnpm run test
+```
+
+## Additional info
+
+While covering functionalities with unit tests I had a problem with function getRandomGoal because it uses Math.random so each time I executed the same test it would output different result.
