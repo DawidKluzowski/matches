@@ -4,8 +4,8 @@ import { observer } from 'mobx-react-lite';
 import { Match } from '../types';
 import { getRandomGoal } from '../utils';
 
-const SIMULATION_TIME = 9000;
-const GOALS_INTERVAL = 2000;
+const SIMULATION_TIME = 90000;
+const GOALS_INTERVAL = 10000;
 
 type Props = {
   match: Match;
