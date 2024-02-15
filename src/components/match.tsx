@@ -1,10 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useSimulationsContext } from '../hooks';
 import { observer } from 'mobx-react-lite';
-
-type Goal = {
-  team: string;
-};
 
 const SIMULATION_TIME = 9000;
 const GOALS_INTERVAL = 2000;
@@ -15,7 +11,7 @@ type MatchProps = {
 
 const Match = ({ matchIndex }: MatchProps) => {
   const { simulationId, matches, finishSimulation } = useSimulationsContext();
-  const [goals, setGoals] = useState<Goal[]>([]);
+  // const [goals, setGoals] = useState<Goal[]>([]);
 
   const teams = [
     { name: matches[matchIndex].teamA },
@@ -24,14 +20,16 @@ const Match = ({ matchIndex }: MatchProps) => {
 
   useEffect(() => {
     if (!simulationId) return;
-    setGoals([]);
+    matches[matchIndex].goals = [];
 
     const intervalId = setInterval(() => {
       const goal = Math.random() < 0.5 ? 0 : 1;
       console.log('Goal for ' + teams[goal].name);
-      setGoals((prevGoals) => {
-        return [...prevGoals, { team: teams[goal].name }];
-      });
+
+      matches[matchIndex].goals = [
+        ...matches[matchIndex].goals,
+        { team: teams[goal].name },
+      ];
     }, GOALS_INTERVAL);
 
     const timeoutId = setTimeout(() => {
@@ -47,7 +45,7 @@ const Match = ({ matchIndex }: MatchProps) => {
   }, [simulationId]);
 
   const countGoals = (team: string) =>
-    goals.filter((goal) => goal.team === team).length;
+    matches[matchIndex].goals.filter((goal) => goal.team === team).length;
 
   return (
     <article className="flex w-60 flex-col gap-2">

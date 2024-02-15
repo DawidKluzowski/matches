@@ -3,6 +3,7 @@ import Match from './components/match.tsx';
 import { SimulationsContext } from './contexts';
 import SimulationsStore from './stores/domain-stores/simulations-store.ts';
 import SimulationButton from './components/simulation-button.tsx';
+import GoalsCounter from './components/goals-counter.tsx';
 
 function App() {
   return (
@@ -19,7 +20,7 @@ function App() {
             <Match matchIndex={2} />
           </section>
           <section className="flex justify-end text-xs font-semibold text-gray-500">
-            Total goals: 6
+            <GoalsCounter />
           </section>
         </div>
       </main>

@@ -1,15 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { action, makeObservable, observable } from 'mobx';
-
-type Goal = {
-  team: string;
-};
-
-type Match = {
-  teamA: string;
-  teamB: string;
-  goals: Goal[];
-};
+import { Match } from '../../types';
 
 type SimulationState = 'new' | 'running' | 'done';
 
