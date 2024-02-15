@@ -2,15 +2,11 @@ import { useSimulationsContext } from '../hooks';
 import { observer } from 'mobx-react-lite';
 
 const SimulationButton = () => {
-  const { startSimulation, finishSimulation, restartSimulation, state } =
-    useSimulationsContext();
+  const { startSimulation, finishSimulation, state } = useSimulationsContext();
 
   if (state === 'done') {
     return (
-      <button
-        onClick={restartSimulation}
-        className="rounded border-2 px-10 py-1"
-      >
+      <button onClick={startSimulation} className="rounded border-2 px-10 py-1">
         Restart
       </button>
     );

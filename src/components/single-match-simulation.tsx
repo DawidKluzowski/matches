@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { useSimulationsContext } from '../hooks';
 import { observer } from 'mobx-react-lite';
 import { Match } from '../types';
-import { getGoalsForTeam, getRandomGoal } from '../utils';
+import { getRandomGoal } from '../utils';
 
 const SIMULATION_TIME = 9000;
 const GOALS_INTERVAL = 2000;
@@ -17,13 +17,11 @@ const SingleMatchSimulation = ({ match, simulationId }: Props) => {
   const intervalId = useRef(0);
   const timeoutId = useRef(0);
 
-  const teams = [match.teamA, match.teamB];
-
   useEffect(() => {
     if (!simulationId) return;
 
     intervalId.current = setInterval(() => {
-      const goal = getRandomGoal(teams);
+      const goal = getRandomGoal([match.teamA, match.teamB]);
       addGoal(match.id, goal);
     }, GOALS_INTERVAL);
 
@@ -45,16 +43,22 @@ const SingleMatchSimulation = ({ match, simulationId }: Props) => {
     }
   }, [state]);
 
+  const teamAgoals = match.goals.filter(
+    (goal) => goal.team.name === match.teamA.name,
+  );
+  const teamBgoals = match.goals.filter(
+    (goal) => goal.team.name === match.teamB.name,
+  );
+
   return (
     <article className="flex w-60 flex-col gap-2">
       <section className="flex flex-col gap-2">
         <div className="flex justify-between gap-10">
           <div>
-            {teams[0].name} vs {teams[1].name}
+            {match.teamA.name} vs {match.teamB.name}
           </div>
           <div>
-            {getGoalsForTeam(match, teams[0].name)}:
-            {getGoalsForTeam(match, teams[1].name)}
+            {teamAgoals.length}:{teamBgoals.length}
           </div>
         </div>
       </section>

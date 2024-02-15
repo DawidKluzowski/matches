@@ -1,5 +1,5 @@
 export type Goal = {
-  team: string;
+  team: Team;
 };
 
 export type Team = {

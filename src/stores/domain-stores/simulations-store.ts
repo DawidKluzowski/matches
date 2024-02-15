@@ -39,7 +39,6 @@ class SimulationsStore {
       addGoal: action.bound,
       startSimulation: action.bound,
       finishSimulation: action.bound,
-      restartSimulation: action.bound,
     });
   }
 
@@ -51,18 +50,13 @@ class SimulationsStore {
   }
 
   startSimulation() {
-    this.simulationId = uuidv4();
     this.state = 'running';
+    this.simulationId = uuidv4();
+    this.matches = this.matches.map((match) => ({ ...match, goals: [] }));
   }
 
   finishSimulation() {
     this.state = 'done';
-  }
-
-  restartSimulation() {
-    this.state = 'running';
-    this.simulationId = uuidv4();
-    this.matches = this.matches.map((match) => ({ ...match, goals: [] }));
   }
 }
 
