@@ -17,7 +17,7 @@ const SingleMatchSimulation = ({ match, simulationId }: Props) => {
   const intervalId = useRef(0);
   const timeoutId = useRef(0);
 
-  const teams = [{ name: match.teamA }, { name: match.teamB }]; // TODO: Moze powinien byc type Team i zaciagac ze store jakos
+  const teams = [match.teamA, match.teamB];
 
   useEffect(() => {
     if (!simulationId) return;

@@ -2,9 +2,13 @@ export type Goal = {
   team: string;
 };
 
+export type Team = {
+  name: string;
+};
+
 export type Match = {
   id: string;
-  teamA: string;
-  teamB: string;
+  teamA: Team;
+  teamB: Team;
   goals: Goal[];
 };

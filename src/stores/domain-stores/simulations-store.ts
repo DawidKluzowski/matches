@@ -14,20 +14,20 @@ class SimulationsStore {
     this.matches = [
       {
         id: uuidv4(),
-        teamA: 'Germany',
-        teamB: 'Poland',
+        teamA: { name: 'Germany' },
+        teamB: { name: 'Poland' },
         goals: [],
       },
       {
         id: uuidv4(),
-        teamA: 'Brazil',
-        teamB: 'Mexico',
+        teamA: { name: 'Brazil' },
+        teamB: { name: 'Mexico' },
         goals: [],
       },
       {
         id: uuidv4(),
-        teamA: 'Argentina',
-        teamB: 'Uruguay',
+        teamA: { name: 'Argentina' },
+        teamB: { name: 'Uruguay' },
         goals: [],
       },
     ];
