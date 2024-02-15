@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { action, makeObservable, observable } from 'mobx';
-import { Match } from '../../types';
+import { Goal, Match } from '../../types';
 
 type SimulationState = 'new' | 'running' | 'done';
 
@@ -8,33 +8,54 @@ class SimulationsStore {
   simulationId = '';
   state: SimulationState = 'new';
 
-  matches: Match[] = [
-    {
-      teamA: 'Germany',
-      teamB: 'Poland',
-      goals: [],
-    },
-    {
-      teamA: 'Brazil',
-      teamB: 'Mexico',
-      goals: [],
-    },
-    {
-      teamA: 'Argentina',
-      teamB: 'Uruguay',
-      goals: [],
-    },
-  ];
+  matches: Match[] = [];
 
   constructor() {
+    this.matches = [
+      {
+        id: uuidv4(),
+        teamA: 'Germany',
+        teamB: 'Poland',
+        goals: [],
+      },
+      {
+        id: uuidv4(),
+        teamA: 'Brazil',
+        teamB: 'Mexico',
+        goals: [],
+      },
+      {
+        id: uuidv4(),
+        teamA: 'Argentina',
+        teamB: 'Uruguay',
+        goals: [],
+      },
+    ];
+
     makeObservable(this, {
       simulationId: observable,
       state: observable,
       matches: observable,
+      addGoal: action.bound,
+      resetGoals: action.bound,
       startSimulation: action.bound,
       finishSimulation: action.bound,
       restartSimulation: action.bound,
     });
+  }
+
+  addGoal(matchId: string, goal: Goal) {
+    const match = this.matches.find((match) => match.id === matchId);
+    if (match) {
+      match.goals = [...match.goals, { ...goal }];
+    }
+  }
+
+  resetGoals(matchId: string) {
+    const match = this.matches.find((match) => match.id === matchId);
+    if (match) {
+      match.goals = [];
+    }
   }
 
   startSimulation() {

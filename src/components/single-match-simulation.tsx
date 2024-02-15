@@ -1,41 +1,34 @@
 import { useEffect } from 'react';
 import { useSimulationsContext } from '../hooks';
 import { observer } from 'mobx-react-lite';
+import { Match } from '../types';
+import { getGoalsForTeam, getRandomGoal } from '../utils';
 
 const SIMULATION_TIME = 9000;
 const GOALS_INTERVAL = 2000;
 
-type MatchProps = {
-  matchIndex: number;
+type Props = {
+  match: Match;
+  simulationId: string;
 };
 
-const Match = ({ matchIndex }: MatchProps) => {
-  const { simulationId, matches, finishSimulation } = useSimulationsContext();
-  // const [goals, setGoals] = useState<Goal[]>([]);
+const SingleMatchSimulation = ({ match, simulationId }: Props) => {
+  const { finishSimulation, addGoal, resetGoals } = useSimulationsContext();
 
-  const teams = [
-    { name: matches[matchIndex].teamA },
-    { name: matches[matchIndex].teamB },
-  ];
+  const teams = [{ name: match.teamA }, { name: match.teamB }];
 
   useEffect(() => {
     if (!simulationId) return;
-    matches[matchIndex].goals = [];
+    resetGoals(match.id);
 
     const intervalId = setInterval(() => {
-      const goal = Math.random() < 0.5 ? 0 : 1;
-      console.log('Goal for ' + teams[goal].name);
-
-      matches[matchIndex].goals = [
-        ...matches[matchIndex].goals,
-        { team: teams[goal].name },
-      ];
+      const goal = getRandomGoal(teams);
+      addGoal(match.id, goal);
     }, GOALS_INTERVAL);
 
     const timeoutId = setTimeout(() => {
       clearInterval(intervalId);
       finishSimulation();
-      console.log('Match done');
     }, SIMULATION_TIME);
 
     return () => {
@@ -43,9 +36,6 @@ const Match = ({ matchIndex }: MatchProps) => {
       clearInterval(intervalId);
     };
   }, [simulationId]);
-
-  const countGoals = (team: string) =>
-    matches[matchIndex].goals.filter((goal) => goal.team === team).length;
 
   return (
     <article className="flex w-60 flex-col gap-2">
@@ -55,7 +45,8 @@ const Match = ({ matchIndex }: MatchProps) => {
             {teams[0].name} vs {teams[1].name}
           </div>
           <div>
-            {countGoals(teams[0].name)}:{countGoals(teams[1].name)}
+            {getGoalsForTeam(match, teams[0].name)}:
+            {getGoalsForTeam(match, teams[1].name)}
           </div>
         </div>
       </section>
@@ -63,4 +54,4 @@ const Match = ({ matchIndex }: MatchProps) => {
   );
 };
 
-export default observer(Match);
+export default observer(SingleMatchSimulation);
